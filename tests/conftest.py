@@ -15,7 +15,7 @@ from datetime import datetime
 def browser_context_args(browser_context_args):
     return {
         **browser_context_args,
-        "viewport": None,  # Отключаем фиксированный viewport для запуска на весь экран
+        "viewport": None,
         "locale": "ru-RU",
     }
 
@@ -25,7 +25,6 @@ def create_screenshots_dir():
     screenshots_dir = Path("screenshots")
     screenshots_dir.mkdir(exist_ok=True)
     
-    # Создаем директорию для allure-results
     allure_results_dir = Path("allure-results")
     allure_results_dir.mkdir(exist_ok=True)
     
@@ -84,10 +83,8 @@ def handle_test_failure(request, page: Page, create_screenshots_dir):
         screenshot_path = create_screenshots_dir / f"{test_name}_{timestamp}.png"
         
         try:
-            # Сохраняем скриншот локально
             page.screenshot(path=str(screenshot_path), full_page=True)
             
-            # Прикрепляем скриншот к Allure отчету
             with open(screenshot_path, 'rb') as screenshot_file:
                 allure.attach(
                     screenshot_file.read(),
